@@ -1,33 +1,82 @@
 import React from "react";
-import { useLoaderData, useParams } from "react-router";
-import { addToStoredDB } from "../Utility/addToDb";
+import { useLoaderData } from "react-router";
+import { useParams } from "react-router";
+import { addToStoredDB } from "../utility/addToDb";
 
 const BookDetails = () => {
   const { id } = useParams();
-  //   console.log(id);
+  const books = useLoaderData();
 
-  const data = useLoaderData();
-  const singleBook = data.find((item) => item.bookId == id);
-  console.log(singleBook);
+  const singleBook = books.find((item) => item.bookId == id);
+  //   console.log(singleBook);
+  const {
+    image,
+    bookName,
+    publisher,
+    category,
+    review,
+    tags,
+    totalPages,
+    yearOfPublishing,
+    rating,
+  } = singleBook;
 
-  const handleMarkAsRead = (id) => {
-    addToStoredDB(id);
-  };
   return (
-    <div className=" flex justify-center items-center p-10">
-      <div className=" flex justify-center items-center">
-        <img className=" h-[450px]" src={singleBook.image} alt="" />
-        <div>
-          <h2 className=" text-4xl">{singleBook.bookName}</h2>
-          <p>review: {singleBook.review.slice(0, 205)}</p>
-          <p className=" text-green-600">rating : {singleBook.rating}</p>
-          <p>totalPage: {singleBook.totalPages}</p>
-          <button className=" btn">mark as Read</button>
+    <div className=" flex   gap-4 mt-10">
+      <div className=" w-5/12 bg-gray-300 flex justify-center p-10 rounded-xl">
+        <img className="max-w-full h-auto" src={image} alt="" />
+      </div>
+      <div className=" w-7/12">
+        <h3 className=" font-bold text-2xl text-gray-700">{bookName}</h3>
+        <p>By : {publisher}</p>
+        <hr className=" text-gray-400 my-3" />
+        <p>{category}</p>
+        <hr className=" text-gray-400 my-3" />
+        <p className=" font-semibold">
+          Review : <span className=" text-gray-600 text-sm">{review}</span>
+        </p>
+
+        <div className=" flex items-center gap-3 my-3">
+          <p>Tag</p>
+          {tags.map((item) => {
+            return (
+              <button className=" bg-gray-100 px-2 py-1 mr-2 rounded-full text-green-700">
+                {item}
+              </button>
+            );
+          })}
+        </div>
+        <hr className=" text-gray-400 my-3" />
+
+        <div className=" grid">
+          <div className=" flex justify-between   gap-10">
+            <p>Name of Pages :</p>
+            <p>{totalPages}</p>
+          </div>
+
+          <div className=" flex justify-between  gap-10">
+            <p>Publisher :</p>
+            <p>{publisher}</p>
+          </div>
+
+          <div className=" flex justify-between  gap-10">
+            <p>Year of Publishing:</p>
+            <p>{yearOfPublishing}</p>
+          </div>
+
+          <div className=" flex justify-between  gap-10">
+            <p>Rating :</p>
+            <p>{rating}</p>
+          </div>
+        </div>
+
+        <div className=" flex items-center gap-2">
+          <button className=" btn bg-green-400 text-white">Read</button>
           <button
-            onClick={() => handleMarkAsRead(singleBook.bookId)}
-            className=" btn"
+            onClick={() => addToStoredDB(id)}
+            className=" btn bg-blue-400 text-white"
           >
-            add to WishList
+            Wish List
           </button>
         </div>
       </div>

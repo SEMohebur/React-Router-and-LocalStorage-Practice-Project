@@ -1,15 +1,15 @@
 import React from "react";
-import Banner from "../component/Banner";
-import Books from "./Books";
+import Banner from "../Component/Banner";
+import BooksPage from "./BooksPage";
 import { useLoaderData } from "react-router";
 
 const Home = () => {
-  const data = useLoaderData();
-  // console.log(data);
+  const booksList = useLoaderData();
+  // console.log(books); pass to bookpage
   return (
-    <div>
+    <div className=" ">
       <Banner></Banner>
-      <Books data={data}></Books>
+      <BooksPage booksList={booksList}></BooksPage>
     </div>
   );
 };
